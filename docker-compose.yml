@@ -6,23 +6,23 @@ services:
         container_name: mariadb
         restart: always
         environment:
-            MYSQL_ROOT_PASSWORD: '12345678'
-            MYSQL_DATABASE: 'ecommerce'
+            MYSQL_ROOT_PASSWORD: 12345678
+            MYSQL_DATABASE: ecommerce
         ports:
             - "3306:3306"
         volumes:
-            - './db/mysql:/var/lib/mysql'
-            - './docker/db:/docker-entrypoint-initdb.d'
+            - ./docker/db:/docker-entrypoint-initdb.d
+            - database:/var/lib/mysql'
     ecommerce:
         build: .
         restart: always
         container_name: ecommerce
         volumes:
-            - '.:/var/www/html'
-            - './docker/config/php.ini:/usr/local/etc/php/php.ini'
-            - './docker/config/apache2.conf:/etc/apache2/apache2.conf'
-            - './docker/config/000-default.conf:/etc/apache2/sites-available/000-default.conf'
-            - './docker/config/ports.conf:/etc/apache2/ports.conf'
+            - .:/var/www/html
+            - ./docker/config/php.ini:/usr/local/etc/php/php.ini
+            - ./docker/config/apache2.conf:/etc/apache2/apache2.conf
+            - ./docker/config/000-default.conf:/etc/apache2/sites-available/000-default.conf
+            - ./docker/config/ports.conf:/etc/apache2/ports.conf
         depends_on:
             - db
         ports:
@@ -36,11 +36,14 @@ services:
             DB_USER: ${DB_USER}
     adminer:
         image: adminer
+        depends_on: db
         container_name: adminer
         restart: always
         depends_on:
             - db
         ports:
-            - "8080:8080"
+            - 8080:8080
+volumes:
+    database:
 networks:
     default:
