@@ -36,7 +36,6 @@ services:
             DB_USER: ${DB_USER}
     adminer:
         image: adminer
-        depends_on: db
         container_name: adminer
         restart: always
         depends_on:
