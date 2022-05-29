@@ -4,7 +4,7 @@ RUN docker-php-ext-install pdo pdo_mysql
 
 RUN set -eux; apt-get update; apt-get install -y git
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.3.5 /usr/bin/composer /usr/local/bin/composer
 
 RUN apt-get update; apt-get install curl -y; service apache2 restart;
 
